@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">My Application3</string>
+    <string name="app_title">Кулинарные рецепты</string>
+    <string name="enter_recipe_name">Введите название рецепта</string>
+    <string name="enter_ingredients">Введите ингредиенты</string>
+    <string name="add_recipe_button">Добавить рецепт</string>
+    <string name="added_recipe">Добавленный рецепт</string>
+    <string name="recipe_name_label">Название рецепта:</string>
+    <string name="ingredients_label">Ингредиенты:</string>
+    <string name="recipe_added_success">Рецепт успешно добавлен</string>
+</resources>
