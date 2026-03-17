@@ -1,73 +1,63 @@
 package com.example.myapplication3
-
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var editTextRecipeName: EditText
-    private lateinit var editTextIngredients: EditText
-    private lateinit var buttonAddRecipe: Button
+    private val REQUEST_CODE_RECIPE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Log.d("MainActivity", "onCreate")
+        val editTextRecipeName = findViewById<EditText>(R.id.editTextRecipeName)
+        val editTextIngredients = findViewById<EditText>(R.id.editTextIngredients)
+        val editTextDescription = findViewById<EditText>(R.id.editTextDescription)
+        val textViewResult = findViewById<TextView>(R.id.textViewResult)
 
-        editTextRecipeName = findViewById(R.id.editTextRecipeName)
-        editTextIngredients = findViewById(R.id.editTextIngredients)
-        buttonAddRecipe = findViewById(R.id.buttonAddRecipe)
+        val buttonSend = findViewById<Button>(R.id.buttonSend)
+        val buttonOpenSite = findViewById<Button>(R.id.buttonOpenSite)
 
-        buttonAddRecipe.setOnClickListener {
+        buttonSend.setOnClickListener {
+
             val recipeName = editTextRecipeName.text.toString()
             val ingredients = editTextIngredients.text.toString()
+            val description = editTextDescription.text.toString()
 
             val intent = Intent(this, SecondActivity::class.java)
+
             intent.putExtra("recipe_name", recipeName)
             intent.putExtra("ingredients", ingredients)
+            intent.putExtra("description", description)
+
+            startActivityForResult(intent, REQUEST_CODE_RECIPE)
+        }
+
+        buttonOpenSite.setOnClickListener {
+
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://eda.ru/recepty")
+            )
+
             startActivity(intent)
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.d("MainActivity", "onStart")
-    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-    override fun onResume() {
-        super.onResume()
-        Log.d("MainActivity", "onResume")
-    }
+        if (requestCode == REQUEST_CODE_RECIPE && resultCode == RESULT_OK) {
 
-    override fun onPause() {
-        super.onPause()
-        Log.d("MainActivity", "onPause")
-    }
+            val result = data?.getStringExtra("result_message")
+            val textViewResult = findViewById<TextView>(R.id.textViewResult)
 
-    override fun onStop() {
-        super.onStop()
-        Log.d("MainActivity", "onStop")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("MainActivity", "onDestroy")
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("saved_recipe_name", editTextRecipeName.text.toString())
-        outState.putString("saved_ingredients", editTextIngredients.text.toString())
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        editTextRecipeName.setText(savedInstanceState.getString("saved_recipe_name", ""))
-        editTextIngredients.setText(savedInstanceState.getString("saved_ingredients", ""))
+            textViewResult.text = result
+        }
     }
 }
