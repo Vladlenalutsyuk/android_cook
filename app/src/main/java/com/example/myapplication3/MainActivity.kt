@@ -3,43 +3,45 @@ package com.example.myapplication3
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 
 class MainActivity : AppCompatActivity() {
 
-    private var currentRecipeName: String = ""
-    private var currentRecipeIngredients: String = ""
-
-    private val addRecipeLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val data = result.data
-                currentRecipeName = data?.getStringExtra("recipe_name") ?: ""
-                currentRecipeIngredients = data?.getStringExtra("recipe_ingredients") ?: ""
-            }
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applySavedTheme(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val btnOpenRecipe = findViewById<Button>(R.id.btnOpenRecipe)
-        val btnAddRecipe = findViewById<Button>(R.id.btnAddRecipe)
+        val editTextRecipeName = findViewById<EditText>(R.id.editTextRecipeName)
+        val buttonFindRecipe = findViewById<Button>(R.id.buttonFindRecipe)
+        val buttonAddRecipe = findViewById<Button>(R.id.buttonAddRecipe)
+        val switchTheme = findViewById<SwitchCompat>(R.id.switchTheme)
 
-        currentRecipeName = getString(R.string.sample_recipe)
-        currentRecipeIngredients = getString(R.string.sample_ingredients)
+        switchTheme.isChecked = ThemeHelper.isDarkMode(this)
 
-        btnOpenRecipe.setOnClickListener {
-            val intent = Intent(this, RecipeDetailsActivity::class.java)
-            intent.putExtra("recipe_name", currentRecipeName)
-            intent.putExtra("recipe_ingredients", currentRecipeIngredients)
-            startActivity(intent)
+        switchTheme.setOnCheckedChangeListener { _, isChecked ->
+            ThemeHelper.saveTheme(this, isChecked)
+            recreate()
         }
 
-        btnAddRecipe.setOnClickListener {
+        buttonFindRecipe.setOnClickListener {
+            val recipeName = editTextRecipeName.text.toString().trim()
+
+            if (recipeName.isEmpty()) {
+                Toast.makeText(this, getString(R.string.enter_recipe_name), Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(this, RecipeDetailsActivity::class.java)
+                intent.putExtra("recipe_name", recipeName)
+                startActivity(intent)
+            }
+        }
+
+        buttonAddRecipe.setOnClickListener {
             val intent = Intent(this, AddRecipeActivity::class.java)
-            addRecipeLauncher.launch(intent)
+            startActivity(intent)
         }
     }
 }

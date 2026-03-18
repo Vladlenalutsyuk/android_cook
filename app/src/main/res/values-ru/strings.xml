@@ -1,14 +1,20 @@
 <resources>
-    <string name="app_name">RecipeApp</string>
-    <string name="main_title">Книга рецептов</string>
+    <string name="app_name">Recipe App</string>
+    <string name="theme_switch">Тёмная тема</string>
+    <string name="recipe_name_hint">Введите название рецепта</string>
+    <string name="find_recipe">Найти рецепт</string>
     <string name="add_recipe">Добавить рецепт</string>
-    <string name="open_recipe">Открыть рецепт</string>
+    <string name="enter_recipe_name">Введите название рецепта</string>
+    <string name="selected_recipe">Выбран рецепт: %1$s</string>
+    <string name="fill_all_fields">Заполните все поля</string>
+    <string name="recipe_saved">Рецепт успешно сохранён</string>
+
     <string name="recipe_title">Название рецепта</string>
     <string name="ingredients">Ингредиенты</string>
     <string name="save">Сохранить</string>
-    <string name="details_title">Детали рецепта</string>
+    <string name="details_title">Карточка рецепта</string>
     <string name="sample_recipe">Борщ</string>
-    <string name="sample_ingredients">Свекла, капуста, картофель</string>
+    <string name="sample_ingredients">Свёкла, капуста, картофель, морковь, мясо</string>
     <string name="recipe_card_title">Карточка рецепта</string>
     <string name="button_add_recipe">Добавить рецепт</string>
 </resources>

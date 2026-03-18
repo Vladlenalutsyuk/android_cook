@@ -1,14 +1,20 @@
 <resources>
-    <string name="app_name">RecipeApp</string>
-    <string name="main_title">Recipe Book</string>
-    <string name="add_recipe">Add Recipe</string>
-    <string name="open_recipe">Open Recipe</string>
-    <string name="recipe_title">Recipe Title</string>
+    <string name="app_name">Recipe App</string>
+    <string name="theme_switch">Dark theme</string>
+    <string name="recipe_name_hint">Enter recipe name</string>
+    <string name="find_recipe">Find recipe</string>
+    <string name="add_recipe">Add recipe</string>
+    <string name="enter_recipe_name">Enter recipe name</string>
+    <string name="selected_recipe">Selected recipe: %1$s</string>
+    <string name="fill_all_fields">Fill in all fields</string>
+    <string name="recipe_saved">Recipe saved successfully</string>
+
+    <string name="recipe_title">Recipe title</string>
     <string name="ingredients">Ingredients</string>
     <string name="save">Save</string>
-    <string name="details_title">Recipe Details</string>
+    <string name="details_title">Recipe details</string>
     <string name="sample_recipe">Borscht</string>
-    <string name="sample_ingredients">Beetroot, cabbage, картофель</string>
-    <string name="recipe_card_title">Recipe Card</string>
-    <string name="button_add_recipe">Add Recipe</string>
+    <string name="sample_ingredients">Beetroot, cabbage, potatoes, carrots, meat</string>
+    <string name="recipe_card_title">Recipe card</string>
+    <string name="button_add_recipe">Add recipe</string>
 </resources>
