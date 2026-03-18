@@ -1,20 +1,14 @@
 <resources>
     <string name="app_name">RecipeApp</string>
-    <string name="app_title">Кулинарные рецепты</string>
-
-    <string name="hint_recipe_name">Введите название рецепта</string>
-    <string name="hint_ingredients">Введите ингредиенты</string>
-    <string name="hint_description">Введите способ приготовления</string>
-
-    <string name="button_send_recipe">Передать рецепт</string>
-    <string name="button_open_site">Открыть сайт с рецептами</string>
-    <string name="button_add_recipe">Добавить рецепт</string>
-
-    <string name="result_placeholder">Здесь появится результат</string>
-    <string name="recipe_card_title">Карточка рецепта</string>
-    <string name="recipe_added_success">Рецепт успешно добавлен</string>
-
-    <string name="recipe_name_label">Название рецепта: %1$s</string>
-    <string name="ingredients_label">Ингредиенты: %1$s</string>
-    <string name="description_label">Описание: %1$s</string>
+    <string name="main_title">Recipe Book</string>
+    <string name="add_recipe">Add Recipe</string>
+    <string name="open_recipe">Open Recipe</string>
+    <string name="recipe_title">Recipe Title</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="save">Save</string>
+    <string name="details_title">Recipe Details</string>
+    <string name="sample_recipe">Borscht</string>
+    <string name="sample_ingredients">Beetroot, cabbage, картофель</string>
+    <string name="recipe_card_title">Recipe Card</string>
+    <string name="button_add_recipe">Add Recipe</string>
 </resources>

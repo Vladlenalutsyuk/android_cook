@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">RecipeApp</string>
+    <string name="main_title">Книга рецептов</string>
+    <string name="add_recipe">Добавить рецепт</string>
+    <string name="open_recipe">Открыть рецепт</string>
+    <string name="recipe_title">Название рецепта</string>
+    <string name="ingredients">Ингредиенты</string>
+    <string name="save">Сохранить</string>
+    <string name="details_title">Детали рецепта</string>
+    <string name="sample_recipe">Борщ</string>
+    <string name="sample_ingredients">Свекла, капуста, картофель</string>
+    <string name="recipe_card_title">Карточка рецепта</string>
+    <string name="button_add_recipe">Добавить рецепт</string>
+</resources>
