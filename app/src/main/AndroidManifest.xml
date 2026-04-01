@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -8,6 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication3">
+
+        <service
+            android:name=".RecipeSaveService"
+            android:exported="false" />
+
+        <service
+            android:name=".CookingTimerService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
 
         <activity android:name=".AddRecipeActivity" />
         <activity android:name=".RecipeDetailsActivity" />

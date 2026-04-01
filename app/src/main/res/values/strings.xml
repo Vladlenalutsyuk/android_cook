@@ -17,4 +17,12 @@
     <string name="sample_ingredients">Beetroot, cabbage, potatoes, carrots, meat</string>
     <string name="recipe_card_title">Recipe card</string>
     <string name="button_add_recipe">Add recipe</string>
+
+    <string name="start_timer">Start timer</string>
+    <string name="stop_timer">Stop timer</string>
+    <string name="timer_initial">Timer: 0 sec.</string>
+    <string name="timer_stopped">Timer: stopped</string>
+    <string name="timer_seconds_format">Timer: %1$d sec.</string>
+    <string name="timer_notification_title">Cooking timer</string>
+    <string name="timer_notification_text">Remaining: %1$d sec.</string>
 </resources>

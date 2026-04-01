@@ -1,5 +1,6 @@
 package com.example.myapplication3
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -24,6 +25,10 @@ class AddRecipeActivity : AppCompatActivity() {
             if (name.isEmpty() || ingredients.isEmpty()) {
                 Toast.makeText(this, getString(R.string.fill_all_fields), Toast.LENGTH_SHORT).show()
             } else {
+                val serviceIntent = Intent(this, RecipeSaveService::class.java)
+                serviceIntent.putExtra("recipe_name", name)
+                startService(serviceIntent)
+
                 Toast.makeText(this, getString(R.string.recipe_saved), Toast.LENGTH_SHORT).show()
                 finish()
             }
