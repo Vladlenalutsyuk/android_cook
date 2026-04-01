@@ -8,10 +8,10 @@
     <string name="selected_recipe">Выбран рецепт: %1$s</string>
     <string name="fill_all_fields">Заполните все поля</string>
     <string name="recipe_saved">Рецепт успешно сохранён</string>
-
     <string name="recipe_title">Название рецепта</string>
     <string name="ingredients">Ингредиенты</string>
     <string name="save">Сохранить</string>
+
     <string name="details_title">Карточка рецепта</string>
     <string name="sample_recipe">Борщ</string>
     <string name="sample_ingredients">Свёкла, капуста, картофель, морковь, мясо</string>
@@ -25,4 +25,14 @@
     <string name="timer_seconds_format">Таймер: %1$d сек.</string>
     <string name="timer_notification_title">Таймер приготовления</string>
     <string name="timer_notification_text">Осталось: %1$d сек.</string>
+
+    <string name="recipe_image">Изображение рецепта</string>
+    <string name="sample_category">Здесь появятся категория и кухня</string>
+    <string name="ingredients_header">Ингредиенты</string>
+    <string name="instructions_header">Способ приготовления</string>
+    <string name="sample_instructions">Здесь появится описание приготовления</string>
+    <string name="network_error">Не удалось загрузить данные. Проверьте подключение к интернету.</string>
+    <string name="recipe_not_found">Рецепт с таким названием не найден.</string>
+    <string name="recipe_meta_format">Категория: %1$s | Кухня: %2$s</string>
+    <string name="no_data">Нет данных</string>
 </resources>

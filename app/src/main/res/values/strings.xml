@@ -8,10 +8,10 @@
     <string name="selected_recipe">Selected recipe: %1$s</string>
     <string name="fill_all_fields">Fill in all fields</string>
     <string name="recipe_saved">Recipe saved successfully</string>
-
     <string name="recipe_title">Recipe title</string>
     <string name="ingredients">Ingredients</string>
     <string name="save">Save</string>
+
     <string name="details_title">Recipe details</string>
     <string name="sample_recipe">Borscht</string>
     <string name="sample_ingredients">Beetroot, cabbage, potatoes, carrots, meat</string>
@@ -25,4 +25,14 @@
     <string name="timer_seconds_format">Timer: %1$d sec.</string>
     <string name="timer_notification_title">Cooking timer</string>
     <string name="timer_notification_text">Remaining: %1$d sec.</string>
+
+    <string name="recipe_image">Recipe image</string>
+    <string name="sample_category">Category and cuisine will appear here</string>
+    <string name="ingredients_header">Ingredients</string>
+    <string name="instructions_header">Instructions</string>
+    <string name="sample_instructions">Recipe instructions will appear here</string>
+    <string name="network_error">Failed to load data. Check the Internet connection.</string>
+    <string name="recipe_not_found">Recipe not found by this name.</string>
+    <string name="recipe_meta_format">Category: %1$s | Cuisine: %2$s</string>
+    <string name="no_data">No data</string>
 </resources>

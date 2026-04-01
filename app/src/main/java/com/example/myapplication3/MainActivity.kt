@@ -28,10 +28,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonFindRecipe.setOnClickListener {
-            val recipeName = editTextRecipeName.text.toString().trim()
+            val recipeName = editTextRecipeName.text.toString()
+                .replace("'", "")
+                .trim()
 
             if (recipeName.isEmpty()) {
-                Toast.makeText(this, getString(R.string.enter_recipe_name), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.enter_recipe_name),
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
                 val intent = Intent(this, RecipeDetailsActivity::class.java)
                 intent.putExtra("recipe_name", recipeName)
