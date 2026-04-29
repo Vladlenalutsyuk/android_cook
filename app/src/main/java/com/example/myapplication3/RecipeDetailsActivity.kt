@@ -19,10 +19,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.android.volley.Request
-import com.android.volley.toolbox.JsonObjectRequest
-import org.json.JSONObject
-import java.net.URLEncoder
+import androidx.lifecycle.ViewModelProvider
+import com.squareup.picasso.Picasso
 
 class RecipeDetailsActivity : AppCompatActivity() {
 
@@ -37,6 +35,8 @@ class RecipeDetailsActivity : AppCompatActivity() {
     private lateinit var timerTextView: TextView
     private lateinit var startTimerButton: Button
     private lateinit var stopTimerButton: Button
+
+    private lateinit var viewModel: RecipeViewModel
 
     private var cookingTimerService: CookingTimerService? = null
     private var isBound = false
@@ -73,12 +73,20 @@ class RecipeDetailsActivity : AppCompatActivity() {
         startTimerButton = findViewById(R.id.startTimerButton)
         stopTimerButton = findViewById(R.id.stopTimerButton)
 
+        val database = RecipeDatabase.getDatabase(this)
+        val repository = RecipeRepository(database.recipeDao())
+        val factory = RecipeViewModelFactory(repository)
+
+        viewModel = ViewModelProvider(this, factory)[RecipeViewModel::class.java]
+
+        observeViewModel()
+
         val selectedRecipe = intent.getStringExtra("recipe_name")?.trim().orEmpty()
 
         if (selectedRecipe.isEmpty()) {
             showError(getString(R.string.enter_recipe_name))
         } else {
-            loadRecipeFromApi(selectedRecipe)
+            viewModel.loadRecipe(selectedRecipe)
         }
 
         startTimerButton.setOnClickListener {
@@ -102,6 +110,64 @@ class RecipeDetailsActivity : AppCompatActivity() {
         }
     }
 
+    private fun observeViewModel() {
+        viewModel.isLoading.observe(this) { isLoading ->
+            loadingProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        viewModel.error.observe(this) { message ->
+            if (message != null) {
+                showError(message)
+            } else {
+                errorTextView.visibility = View.GONE
+            }
+        }
+
+        viewModel.recipe.observe(this) { recipe ->
+            if (recipe != null) {
+                showRecipe(recipe)
+            }
+        }
+    }
+
+    private fun showRecipe(recipe: RecipeEntity) {
+        errorTextView.visibility = View.GONE
+
+        recipeTitle.text = recipe.title
+        recipeCategory.text = getString(
+            R.string.recipe_meta_format,
+            recipe.category,
+            recipe.area
+        )
+        recipeIngredients.text = recipe.ingredients.ifEmpty { getString(R.string.no_data) }
+        recipeInstructions.text = recipe.instructions.ifEmpty { getString(R.string.no_data) }
+
+        if (recipe.imageUrl.isNotEmpty()) {
+            Picasso.get()
+                .load(recipe.imageUrl)
+                .placeholder(R.drawable.default_recipe)
+                .error(R.drawable.default_recipe)
+                .into(recipeImage)
+        } else {
+            recipeImage.setImageResource(R.drawable.default_recipe)
+        }
+
+        recipeImage.scaleType = ImageView.ScaleType.CENTER_CROP
+    }
+
+    private fun showError(message: String) {
+        errorTextView.visibility = View.VISIBLE
+        errorTextView.text = message
+
+        recipeTitle.text = getString(R.string.no_data)
+        recipeCategory.text = ""
+        recipeIngredients.text = ""
+        recipeInstructions.text = ""
+
+        recipeImage.setImageResource(R.drawable.default_recipe)
+        recipeImage.scaleType = ImageView.ScaleType.CENTER_CROP
+    }
+
     override fun onStart() {
         super.onStart()
         val timerIntent = Intent(this, CookingTimerService::class.java)
@@ -116,106 +182,6 @@ class RecipeDetailsActivity : AppCompatActivity() {
             unbindService(connection)
             isBound = false
         }
-    }
-
-    private fun loadRecipeFromApi(recipeName: String) {
-        showLoading(true)
-        errorTextView.visibility = View.GONE
-
-        val cleanRecipeName = recipeName.replace("'", "").trim()
-        val encodedName = URLEncoder.encode(cleanRecipeName, "UTF-8")
-        val url = "https://www.themealdb.com/api/json/v1/1/search.php?s=$encodedName"
-
-        val request = JsonObjectRequest(
-            Request.Method.GET,
-            url,
-            null,
-            { response ->
-                showLoading(false)
-
-                val mealsArray = response.optJSONArray("meals")
-                if (mealsArray == null || mealsArray.length() == 0) {
-                    showError(getString(R.string.recipe_not_found))
-                    return@JsonObjectRequest
-                }
-
-                val mealObject = mealsArray.getJSONObject(0)
-
-                val title = mealObject.optString("strMeal", getString(R.string.no_data))
-                val category = mealObject.optString("strCategory", "")
-                val area = mealObject.optString("strArea", "")
-                val instructions = mealObject.optString("strInstructions", getString(R.string.no_data))
-
-                recipeTitle.text = title
-                recipeCategory.text = getString(R.string.recipe_meta_format, category, area)
-                recipeIngredients.text = buildIngredientsText(mealObject)
-                recipeInstructions.text = instructions
-
-                loadLocalImage(cleanRecipeName)
-            },
-            {
-                showLoading(false)
-                showError(getString(R.string.network_error))
-            }
-        )
-
-        VolleySingleton.getInstance(this).requestQueue.add(request)
-    }
-
-    private fun loadLocalImage(recipeName: String) {
-        val imageResId = when (recipeName.lowercase()) {
-            "arrabiata" -> R.drawable.arrabiata
-            "chicken" -> R.drawable.chicken
-            "pancakes" -> R.drawable.pancakes
-            else -> R.drawable.default_recipe
-        }
-
-        recipeImage.setBackgroundColor(
-            ContextCompat.getColor(this, android.R.color.transparent)
-        )
-        recipeImage.setImageResource(imageResId)
-        recipeImage.scaleType = ImageView.ScaleType.CENTER_CROP
-    }
-
-    private fun buildIngredientsText(mealObject: JSONObject): String {
-        val ingredients = mutableListOf<String>()
-
-        for (i in 1..20) {
-            val ingredient = mealObject.optString("strIngredient$i").trim()
-            val measure = mealObject.optString("strMeasure$i").trim()
-
-            if (ingredient.isNotEmpty()) {
-                val line = if (measure.isNotEmpty()) {
-                    "• $ingredient — $measure"
-                } else {
-                    "• $ingredient"
-                }
-                ingredients.add(line)
-            }
-        }
-
-        return if (ingredients.isNotEmpty()) {
-            ingredients.joinToString("\n")
-        } else {
-            getString(R.string.no_data)
-        }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        loadingProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
-    private fun showError(message: String) {
-        errorTextView.visibility = View.VISIBLE
-        errorTextView.text = message
-
-        recipeTitle.text = getString(R.string.no_data)
-        recipeCategory.text = ""
-        recipeIngredients.text = ""
-        recipeInstructions.text = ""
-
-        recipeImage.setImageResource(R.drawable.default_recipe)
-        recipeImage.scaleType = ImageView.ScaleType.CENTER_CROP
     }
 
     private fun updateTimerUI() {
